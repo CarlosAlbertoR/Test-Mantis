@@ -1,0 +1,23 @@
+name: Docker Compose Up
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install Docker Compose
+      run: |
+        sudo rm /usr/local/bin/docker-compose
+        curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-`uname -s`-`uname -m` > docker-compose
+        chmod +x docker-compose
+        sudo mv docker-compose /usr/local/bin
+
+    - name: Run Docker Compose
+      run: docker-compose up -d
